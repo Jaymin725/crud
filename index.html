@@ -1,18 +1,37 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Meta -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Title -->
-    <title>CRUD</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-gray-900 text-gray-100">
-    <!-- Header -->
-    <header class="mb-4 shadow-xl border-b border-gray-700/25">
-      <h1 class="px-8 py-2 text-3xl font-bold">CRUD</h1>
-    </header>
-  </body>
+
+<head>
+  <!-- Meta -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Title -->
+  <title>CRUD</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-gray-100">
+  <!-- Header -->
+  <header class="mb-4 border-b border-gray-700/25 shadow-2xl">
+    <h1 class="px-8 py-2 text-3xl font-bold">CRUD</h1>
+  </header>
+  <!-- Main -->
+  <main class="container mx-auto px-4">
+    <!-- Top Bar -->
+    <div class="flex justify-between items-center pb-3 border-b border-gray-400/50">
+      <!-- Total data -->
+      <h3 class="text-xl text-gray-400">Total : 0</h3>
+      <!-- Add Button -->
+      <button class="flex items-center gap-1 pl-3 pr-4 py-1 rounded-full text-gray-100 bg-gray-400">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
+          <path
+            d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
+        </svg>
+        Add
+      </button>
+    </div>
+  </main>
+</body>
+
 </html>
