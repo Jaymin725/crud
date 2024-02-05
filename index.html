@@ -21,9 +21,9 @@
     <!-- Top Bar -->
     <div class="flex justify-between items-center mb-4 pb-3 border-b border-gray-400/50">
       <!-- Total data -->
-      <h3 class="text-xl text-gray-400">Total : 0</h3>
+      <h3 class="text-xl text-gray-400">Total : <span id="total"></span></h3>
       <!-- Add Button -->
-      <button
+      <button id="create-button"
         class="flex items-center gap-1 pl-3 pr-4 py-1 rounded-full text-gray-100 font-semibold bg-gray-400/75 transition hover:bg-gray-500">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
           <path
@@ -40,7 +40,7 @@
         <span class="sm:inline hidden basis-1/3">Course</span>
       </div>
       <!-- List Body -->
-      <ul class="divide-y divide-gray-400/25 *:flex *:py-2 *:items-center">
+      <ul id="list-body" class="divide-y divide-gray-400/25 *:flex *:py-2 *:items-center">
         <!-- List Items -->
         <li>
           <div class="basis-2/3 sm:flex">
@@ -48,7 +48,7 @@
             <p class="basis-1/2 group/read flex items-center gap-1">
               Name
               <!-- Read Button -->
-              <button>
+              <button onclick="show_read_modal()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                   class="group-hover/read:block sm:hidden w-5 h-5 fill-gray-400/50">
                   <path fill-rule="evenodd"
@@ -65,7 +65,7 @@
             <span
               class="inline-flex overflow-hidden border border-gray-400/50 rounded-full divide-x divide-gray-400/50 hover:border-gray-400/75 hover:divide-gray-400/75 *:flex *:items-center *:gap-1 *:px-3 *:sm:py-1 *:py-2">
               <!-- Edit Button -->
-              <button class="transition hover:bg-blue-500/75">
+              <button id="edit-button" class="transition hover:bg-blue-500/75" onclick="show_edit_modal()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
                   <path
                     d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
@@ -90,9 +90,10 @@
     </div>
   </main>
   <!-- Modals -->
-  <div id="modal" class="fixed top-0 left-0 flex justify-center items-center w-full h-full backdrop-brightness-50">
+  <div id="modal-window"
+    class="hidden fixed top-0 left-0 flex justify-center items-center w-full h-full backdrop-brightness-50">
     <!-- Read -->
-    <div class="w-80 p-4 bg-gray-900 border border-gray-400/25 rounded-xl">
+    <div id="read-modal" class="hidden w-80 p-4 bg-gray-900 border border-gray-400/25 rounded-xl">
       <!-- Modal Header -->
       <div class="flex justify-between items-center pb-3 border-b border-gray-400/50">
         <h3 class="flex items-center gap-2 text-xl font-semibold">
@@ -104,123 +105,136 @@
           Info
         </h3>
         <!-- Close Button -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-          <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-        </svg>        
+        <svg id="read-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="close-button w-5 h-5">
+          <path
+            d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+        </svg>
       </div>
       <!-- Modal Body -->
       <div class="divide-y divide-gray-400/25">
         <div class="py-2">
           <h4 class="text-sm text-gray-400">Name :</h4>
-          <span class="text-lg">Name</span>
+          <span id="read-name" class="text-lg">Name</span>
           <h4 class="mt-1 text-sm text-gray-400">Phone Number :</h4>
-          <a href="tel:">Name</a>
+          <a id="read-number" href="tel:">Phone Number</a>
           <h4 class="mt-1 text-sm text-gray-400">Email :</h4>
-          <a href="mailto:">Name</a>
+          <a id="read-email" href="mailto:">Email</a>
         </div>
         <div class="pt-2">
           <h4 class="text-sm text-gray-400">Course :</h4>
-          <span>Course</span>
+          <span id="read-course">Course</span>
           <h4 class="mt-1 text-sm text-gray-400">Batch Time :</h4>
-          <span>Time</span>
+          <span id="read-time">Time</span>
         </div>
       </div>
     </div>
     <!-- Edit -->
-    <div class="w-80 p-4 bg-gray-900 border border-gray-400/25 rounded-xl">
+    <div id="edit-modal" class="hidden w-80 p-4 bg-gray-900 border border-gray-400/25 rounded-xl">
       <!-- Modal Header -->
       <div class="flex justify-between items-center pb-3 border-b border-gray-400/50">
         <h3 class="flex items-center gap-2 text-xl font-semibold">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-            <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
-            <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
-          </svg>          
+            <path
+              d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+            <path
+              d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+          </svg>
           Edit
         </h3>
         <!-- Close Button -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-          <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-        </svg>          
+        <svg id="edit-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path
+            d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+        </svg>
       </div>
-      <!-- Modal Body --> 
+      <!-- Modal Body -->
       <div class="divide-y divide-gray-400/25">
         <div class="py-3">
           <h4 class="text-sm text-gray-400">Name :</h4>
-          <input type="text" class="block border border-gray-400 rounded-md bg-transparent">
+          <input id="edit-name" type="text" class="block border border-gray-400 rounded-md bg-transparent">
           <h4 class="mt-1 text-sm text-gray-400">Phone Number :</h4>
-          <input type="text" class="block border border-gray-400 rounded-md bg-transparent">
+          <input id="edit-number" type="text" class="block border border-gray-400 rounded-md bg-transparent">
           <h4 class="mt-1 text-sm text-gray-400">Email :</h4>
-          <input type="text" class="block border border-gray-400 rounded-md bg-transparent">
+          <input id="edit-email" type="text" class="block border border-gray-400 rounded-md bg-transparent">
         </div>
         <div class="py-3">
           <h4 class="text-sm text-gray-400">Course :</h4>
-          <select name="" id="" class="block border border-gray-400 rounded-md bg-transparent *:text-black">
+          <select name="" id="edit-course" class="block border border-gray-400 rounded-md bg-transparent *:text-black">
             <option value="Web Development">Web Development</option>
             <option value="Flutter Development">Flutter Development</option>
             <option value="iOS Development">iOS Development</option>
           </select>
           <h4 class="mt-1 text-sm text-gray-400">Batch Time :</h4>
-          <select name="" id="" class="block border border-gray-400 rounded-md bg-transparent *:text-black">
-            <option value="Web Development">9:00 - 10:00</option>
-            <option value="Web Development">11:00 - 12:00</option>
+          <select name="" id="edit-time" class="block border border-gray-400 rounded-md bg-transparent *:text-black">
+            <option value="9:00 - 10:00">9:00 - 10:00</option>
+            <option value="11:00 - 12:00">11:00 - 12:00</option>
           </select>
         </div>
-        <button class="flex justify-center items-center gap-1 w-full py-1 text-xl text-gray-900 font-semibold bg-gray-400 rounded-md">
+        <button id="edit-confirm"
+          class="flex justify-center items-center gap-1 w-full py-1 text-xl text-gray-900 font-semibold bg-gray-400 rounded-md">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-            <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
-            <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
-          </svg>          
+            <path
+              d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+            <path
+              d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+          </svg>
           Edit
         </button>
       </div>
     </div>
     <!-- Create -->
-    <div class="w-80 p-4 bg-gray-900 border border-gray-400/25 rounded-xl">
+    <div id="create-modal" class=" hidden w-80 p-4 bg-gray-900 border border-gray-400/25 rounded-xl">
       <!-- Modal Header -->
       <div class="flex justify-between items-center pb-3 border-b border-gray-400/50">
         <h3 class="flex items-center gap-2 text-xl font-semibold">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-          </svg>          
+            <path
+              d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+          </svg>
           Add
         </h3>
         <!-- Close Button -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-          <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-        </svg>          
+        <svg id="create-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path
+            d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+        </svg>
       </div>
-      <!-- Modal Body --> 
+      <!-- Modal Body -->
       <div class="divide-y divide-gray-400/25">
         <div class="py-3">
           <h4 class="text-sm text-gray-400">Name :</h4>
-          <input type="text" class="block border border-gray-400 rounded-md bg-transparent">
+          <input id="create-name" type="text" class="block border border-gray-400 rounded-md bg-transparent">
           <h4 class="mt-1 text-sm text-gray-400">Phone Number :</h4>
-          <input type="text" class="block border border-gray-400 rounded-md bg-transparent">
+          <input id="create-number" type="tel" class="block border border-gray-400 rounded-md bg-transparent">
           <h4 class="mt-1 text-sm text-gray-400">Email :</h4>
-          <input type="text" class="block border border-gray-400 rounded-md bg-transparent">
+          <input id="create-email" type="email" class="block border border-gray-400 rounded-md bg-transparent">
         </div>
         <div class="py-3">
           <h4 class="text-sm text-gray-400">Course :</h4>
-          <select name="" id="" class="block border border-gray-400 rounded-md bg-transparent *:text-black">
+          <select name="" id="create-course" class="block border border-gray-400 rounded-md bg-transparent *:text-black">
             <option value="Web Development">Web Development</option>
             <option value="Flutter Development">Flutter Development</option>
             <option value="iOS Development">iOS Development</option>
           </select>
           <h4 class="mt-1 text-sm text-gray-400">Batch Time :</h4>
-          <select name="" id="" class="block border border-gray-400 rounded-md bg-transparent *:text-black">
-            <option value="Web Development">9:00 - 10:00</option>
-            <option value="Web Development">11:00 - 12:00</option>
+          <select name="" id="create-time" class="block border border-gray-400 rounded-md bg-transparent *:text-black">
+            <option value="9:00 - 10:00">9:00 - 10:00</option>
+            <option value="11:00 - 12:00">11:00 - 12:00</option>
           </select>
         </div>
-        <button class="flex justify-center items-center gap-1 w-full py-1 text-xl text-gray-900 font-semibold bg-gray-400 rounded-md">
+        <button id="create-confirm"
+          class="flex justify-center items-center gap-1 w-full py-1 text-xl text-gray-900 font-semibold bg-gray-400 rounded-md">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-          </svg>                    
+            <path
+              d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+          </svg>
           Add
         </button>
       </div>
     </div>
   </div>
+  <!-- Script -->
+  <script src="script.js"></script>
 </body>
 
-</html> 
+</html>
